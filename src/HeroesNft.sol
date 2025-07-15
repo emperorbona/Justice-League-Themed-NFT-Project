@@ -32,13 +32,13 @@ contract HeroesNft is ERC721{
 
     function mintNft() public {
         _safeMint(msg.sender , s_tokenCounter);
-        s_tokenIdToHeroes[s_tokenCounter] == Heroes.SUPERMAN;
+        s_tokenIdToHeroes[s_tokenCounter] = Heroes.SUPERMAN;
         s_tokenCounter++;
     }
 
     function flipHeroes(uint256 tokenId) public {
         address owner = ownerOf(tokenId);
-        if(_isAuthorized(owner,msg.sender,tokenId)){
+        if(!_isAuthorized(owner,msg.sender,tokenId)){
             revert MoodNft__CantFlipMoodIfNotOwner();
         }
         if(s_tokenIdToHeroes[tokenId] == Heroes.SUPERMAN){
@@ -75,7 +75,7 @@ contract HeroesNft is ERC721{
                 Base64.encode(
                     bytes(
                         abi.encodePacked(
-                            '{"name:"', name(), '", "description":"An Nft that describes the owners mood.", "attributes": [{"trait_type":"moodiness", "value" :100}], "image": "', imageURI, '"}'
+                            '{"name":"', name(), '", "description":"An Nft that selects between Several Justice league members.", "attributes": [{"trait_type":"moodiness", "value" :100}], "image": "', imageURI, '"}'
                         )
                     )
                 )
